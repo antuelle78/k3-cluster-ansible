@@ -14,7 +14,7 @@ Requirements
 
 **CPU:** 2 CPU minimum per node
 
-*HA:*** At least three nodes are required to achive high availability
+***HA:*** At least three nodes are required to achive high availability
 
 Role Variables
 --------------
