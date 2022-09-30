@@ -1,0 +1,30 @@
+# # cspell:ignore cmdline, workdir
+---
+ansible-navigator:
+  execution-environment:
+    container-engine: docker
+    enabled: true
+    environment-variables:
+      set:
+         ANSIBLE_CONFIG: ansible.cfg
+    image: antuelle78/awx-ee:latest
+    pull:
+      #arguments:
+        #- "--tls-verify=false"
+      policy: always
+    container-options:
+      - "--net=host"
+  logging:
+    level: critical
+  #mode: stdout
+#     append: False
+#     file: /tmp/log.txt
+#
+#   mode: stdout
+#
+  playbook-artifact:
+    enable: False
+#     replay: /tmp/test_artifact.json
+#     save-as: /tmp/test_artifact.json
+#
+  time-zone: Europe/Paris

@@ -1,0 +1,108 @@
+---
+# tasks file for k3s_cluster
+
+- name: Run full upgrade
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    update_cache: true
+  register: update_status
+
+- name: Reboot if system is updated
+  ansible.builtin.reboot:
+    reboot_timeout: 240
+  when: update_status is changed
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - git
+      - build-essential
+      - python3-pip
+      - curl
+      - jq
+    state: present
+    update_cache: true
+
+- name: Install required python modules
+  ansible.builtin.pip:
+    name:
+      - kubernetes
+      - pyOpenSSL
+      - PyYAML
+      - jsonpatch
+    executable: pip3
+  become: false
+
+- name: Populate service facts
+  ansible.builtin.service_facts:
+
+- name: Set k3s action state
+  ansible.builtin.set_fact:
+    installed: true
+  when: ansible_facts.services['k3s.service'] is defined
+
+- block:
+
+    - name: Create kubeconfig directory
+      ansible.builtin.file:
+        path: ~/.kube
+        mode: 0700
+        state: directory
+
+    - name: Create user kubectl configuration
+      ansible.builtin.copy:
+        src: "{{ kubeconfig_src }}"
+        dest: "{{ usr_kubeconfig }}"
+        mode: 0600
+        remote_src: true
+
+    - name: Get Cluster information
+      kubernetes.core.k8s_cluster_info:
+      register: api_status
+  become: false
+  when: ansible_facts.services['k3s.service'] is defined and ansible_hostname == master_server
+
+- name: Set k3s installed status to false
+  ansible.builtin.set_fact:
+    installed: false
+  when: ansible_facts.services['k3s.service'] is not defined
+
+- name: Configure localnet resolution
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ master_ip }} {{ k3s_url }}"
+
+- block:
+
+    - name: "Install k3s {{ k3s_version }}"
+      ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
+        INSTALL_K3S_VERSION={'{{ k3s_version }}'}
+        K3S_TOKEN={{ token }}
+        sh -s - server --cluster-init
+        --tls-san {{ k3s_url }} --tls-san {{ master_ip }}
+        --write-kubeconfig-mode 644"
+      when: not installed or api_status.version.server.kubernetes.gitVersion != k3s_version
+      register: master_status
+      tags:
+        - k3s_install
+
+  when: inventory_hostname == master_server
+
+- name: Wait one minute for first server to fully initialize
+  ansible.builtin.pause:
+    minutes: 1
+  when: master_status is changed
+
+
+- name: "Install k3s {{ k3s_version }}"
+  ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
+    INSTALL_K3S_VERSION={'{{ k3s_version }}'}
+    K3S_TOKEN={{ token }} sh -s - server
+    --tls-san {{ k3s_url }} --tls-san {{ master_ip }}
+     --server https://{{ k3s_url }}:6443
+     --write-kubeconfig-mode 644"
+  when:
+    - inventory_hostname != master_server and master_status is changed
+  tags:
+    - k3s_install

@@ -1,0 +1,13 @@
+---
+# defaults file for k3s_cluster
+
+k3s_version: v1.25.0+k3s1
+kubeconfig_src: /etc/rancher/k3s/k3s.yaml
+usr_kubeconfig: ~/.kube/config
+
+k3s_url: my.k3s.home
+
+cluster_url: https://10.0.245.201:6443
+master_ip: 10.0.245.201
+master_server: k3s-server-4
+token: cGFzc3dvcmQK

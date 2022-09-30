@@ -1,0 +1,11 @@
+---
+all:
+  hosts:
+    k3s-server-4:
+      ansible_host: 10.0.245.201
+    k3s-server-5:
+      ansible_host: 10.0.245.90
+    k3s-server-6:
+      ansible_host: 10.0.245.204
+  vars:
+    ansible_user: admin
