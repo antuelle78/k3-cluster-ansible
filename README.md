@@ -57,7 +57,7 @@ Prepare an inventory file and then run the deploy.yml playbook:
 
 **NOTE: Any node with the string "worker" in it's inventory name will be
 
-   configured with the k3s-agent and added to the cluster as a woker node.
+   configured with the k3s-agent and added to the cluster as a woker node.**
 
 
 License
