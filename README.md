@@ -38,7 +38,7 @@ https://github.com/antuelle78/k3-cluster-ansible/blob/main/k3s_cluster/defaults/
 How to use:
 -----------
 
-Prepare an inventory file and then run the deploy.yml playbook: 
+Prepare an inventory file similar to the example below and then run the deploy.yml playbook:
 
     ---
 
