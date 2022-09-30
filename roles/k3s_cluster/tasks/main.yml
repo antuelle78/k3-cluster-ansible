@@ -102,8 +102,7 @@
     --tls-san {{ k3s_url }} --tls-san {{ master_ip }}
      --server https://{{ k3s_url }}:6443
      --write-kubeconfig-mode 644"
-  when:
-    - inventory_hostname != master_server and master_status is changed and "worker" not in inventory_hostname
+  when: inventory_hostname != master_server and "worker" not in inventory_hostname
   tags:
     - k3s_install
 
@@ -114,7 +113,6 @@
         INSTALL_K3S_VERSION={'{{ k3s_version }}'}
         K3S_URL=https://{{ k3s_url }}:6443
         K3S_TOKEN={{ token }} sh -"
-      when: master_status is changed
       tags:
         - k3s_install
 
