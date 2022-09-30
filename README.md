@@ -1,7 +1,8 @@
 K3S HA CLUSTER WITH ANSIBLE
 ===========================
 
-Simple deployment of k3s HA cluster with embedded database.
+Simple deployment of k3s HA cluster with embedded database and any number of
+worker nodes.
 
 REF: https://rancher.com/docs/k3s/latest/en/installation/ha-embedded/
 
@@ -43,14 +44,20 @@ Prepare an inventory file and then run the deploy.yml playbook:
 
     all:
       hosts:
-        k3s-server-4:
+        k3s-server-1:
           ansible_host: 10.0.245.201
-        k3s-server-5:
+        k3s-server-2:
           ansible_host: 10.0.245.90
-        k3s-server-6:
+        k3s-server-3:
           ansible_host: 10.0.245.204
+        k3s-worker-1:
+          ansible_host: 10.0.245.205
       vars:
         ansible_user: admin
+
+**NOTE: Any node with the string "worker" in it's inventory name will be
+
+   configured with the k3s-agent and added to the cluster as a woker node.
 
 
 License
