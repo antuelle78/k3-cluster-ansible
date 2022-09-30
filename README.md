@@ -14,14 +14,14 @@ Requirements
 
 **CPU:** 2 CPU minimum per node
 
-*HA:** At least three nodes are required to achive high availability
+*HA:*** At least three nodes are required to achive high availability
 
 Role Variables
 --------------
 
 **k3s_version:** default v1.25.0+k3s1
 
-**master_ip: IP address of first node
+**master_ip:** IP address of first node
 
 **master_server:** Inventory hostname of first node
 
