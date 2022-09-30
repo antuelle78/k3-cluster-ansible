@@ -20,7 +20,7 @@ Requirements
 Role Variables
 --------------
 
-**k3s_version:** default v1.25.0+k3s1
+**k3s_version:** default v1.25.2+k3s1
 
 **master_ip:** IP address of first node
 
