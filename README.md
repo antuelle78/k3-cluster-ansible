@@ -38,7 +38,7 @@ add nodes to an existing cluster
 
 **k3s_url:** FQDN configured for cluster access
 
-**VARIBLES ARE SET IN:**
+**VARIABLES ARE SET IN:**
 
 https://github.com/antuelle78/k3-cluster-ansible/blob/main/k3s_cluster/defaults/main.yml
 
