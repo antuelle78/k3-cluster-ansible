@@ -1,0 +1,39 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - k3s_cluster
+  vars_prompt:
+
+    - name: k3s_version
+      prompt: Enter k3s version
+      default: v1.25.2+k3s1
+      private: false
+
+    - name: master_ip
+      prompt: Enter IP address of primary server
+      default: 10.0.0.1
+      private: false
+
+    - name: master_server
+      prompt: Enter the inventory_hostname of primary server
+      default: k3s-server-1
+      private: false
+
+    - name: token
+      prompt: Enter shared secret for cluster joining
+      default: my_base64_encoded_string
+
+    - name: install_primary
+      prompt: Choose if primary server should be configured (true) for new installs
+      default: true
+      private: false
+
+    - name: install_secs
+      prompt: Choose if secondary servers should be configured (true) for new installs
+      default: true
+
+    - name: k3s_url
+      prompt: Set a hostname/FQDN for your K3s environment
+      default: my.k3s.home

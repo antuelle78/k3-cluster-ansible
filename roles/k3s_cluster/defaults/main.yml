@@ -11,3 +11,7 @@ k3s_url: my.k3s.home
 master_ip: 10.0.245.201
 master_server: k3s-server-4
 token: cGFzc3dvcmQK
+
+install_primary: true
+
+install_secs: true

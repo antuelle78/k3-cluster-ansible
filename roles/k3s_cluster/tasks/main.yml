@@ -92,7 +92,7 @@
 - name: Wait one minute for first server to fully initialize
   ansible.builtin.pause:
     minutes: 1
-  when: master_status is changed
+  when: install_primary
 
 
 - name: "Install k3s {{ k3s_version }}"
@@ -102,17 +102,19 @@
     --tls-san {{ k3s_url }} --tls-san {{ master_ip }}
      --server https://{{ k3s_url }}:6443
      --write-kubeconfig-mode 644"
-  when: inventory_hostname != master_server and "worker" not in inventory_hostname
+  when: inventory_hostname != master_server and "worker" not in inventory_hostname and install_secs
   tags:
     - k3s_install
 
 
 - block:
+
     - name: Install {{ k3s_version }} on worker nodes
       ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
         INSTALL_K3S_VERSION={'{{ k3s_version }}'}
         K3S_URL=https://{{ k3s_url }}:6443
         K3S_TOKEN={{ token }} sh -"
+      when: install_secs
       tags:
         - k3s_install
 
@@ -121,4 +123,6 @@
         name: k3s-agent
         state: started
         enabled: true
+      when: ansible_facts.services['k3s.agent'] is defined
+
   when: '"worker" in inventory_hostname'
