@@ -33,7 +33,9 @@
     - name: install_secs
       prompt: Choose if secondary servers should be configured (true) for new installs
       default: true
+      private: false
 
     - name: k3s_url
       prompt: Set a hostname/FQDN for your K3s environment
       default: my.k3s.home
+      private: false
