@@ -94,7 +94,6 @@
     minutes: 1
   when: install_primary
 
-
 - name: "Install k3s {{ k3s_version }}"
   ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
     INSTALL_K3S_VERSION={'{{ k3s_version }}'}
@@ -105,7 +104,6 @@
   when: inventory_hostname != master_server and "worker" not in inventory_hostname and install_secs
   tags:
     - k3s_install
-
 
 - block:
 
