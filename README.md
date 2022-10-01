@@ -28,17 +28,28 @@ Role Variables
 
 **token:** Shared secret for join nodes to the cluster
 
+**install_primary:** default "true", can be set to "fales" if we just want to
+
+add nodes to an existing cluster
+
+**install_secs:** default "true", if set to "false" only first server with
+
+--cluster-init option will be configured
+
 **k3s_url:** FQDN configured for cluster access
 
 **VARIBLES ARE SET IN:**
 
 https://github.com/antuelle78/k3-cluster-ansible/blob/main/k3s_cluster/defaults/main.yml
 
+These values can be provided at launch if using the "deploy_intr.yml" playbook.
+
 
 How to use:
 -----------
 
 Prepare an inventory file similar to the example below and then run the deploy.yml playbook:
+
 
     ---
 
@@ -59,6 +70,17 @@ Prepare an inventory file similar to the example below and then run the deploy.y
 
    **configured with the k3s-agent and added to the cluster as a woker node.**
 
+```
+ansible-playbook deploy.yml -i inventory.yml
+
+```
+
+To launch in interactive mode:
+
+```
+ansible-playbook deploy.yml -i inventory.yml
+
+```
 
 License
 -------
