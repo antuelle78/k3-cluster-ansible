@@ -78,7 +78,7 @@ ansible-playbook deploy.yml -i inventory.yml
 To launch in interactive mode:
 
 ```
-ansible-playbook deploy.yml -i inventory.yml
+ansible-playbook deploy_intr.yml -i inventory.yml
 
 ```
 
