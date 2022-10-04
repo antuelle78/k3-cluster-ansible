@@ -92,7 +92,7 @@
 - name: Wait one minute for first server to fully initialize
   ansible.builtin.pause:
     minutes: 1
-  when: install_primary
+  when: master_status is changed
 
 - name: "Install k3s {{ k3s_version }}"
   ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
