@@ -75,7 +75,7 @@
 
 - block:
 
-    - name: "Install k3s {{ k3s_version }}"
+    - name: "Install k3s {{ k3s_version }} on {{ master_server }}"
       ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
         INSTALL_K3S_VERSION={'{{ k3s_version }}'}
         K3S_TOKEN={{ token }}
@@ -94,7 +94,7 @@
     minutes: 1
   when: master_status is changed
 
-- name: "Install k3s {{ k3s_version }}"
+- name: "Install k3s {{ k3s_version }}" on server nodes
   ansible.builtin.shell: "curl -sfL https://get.k3s.io/ |
     INSTALL_K3S_VERSION={'{{ k3s_version }}'}
     K3S_TOKEN={{ token }} sh -s - server
